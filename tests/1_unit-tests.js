@@ -1,5 +1,6 @@
 const chai = require("chai");
 let assert = chai.assert;
+
 const ConvertHandler = require("../controllers/convertHandler.js");
 
 let convertHandler = new ConvertHandler();
@@ -82,7 +83,7 @@ suite("Unit Tests", function () {
     ];
 
     inputs.forEach((input) => {
-      assert.instanceOf(convertHandler.getNum(input), Error);
+      assert.equal(convertHandler.getNum(input), "invalid number");
     });
   });
 
@@ -117,7 +118,7 @@ suite("Unit Tests", function () {
     const inputs = ["a", "b", "c", "d", "e"];
 
     for (let input in inputs) {
-      assert.instanceOf(convertHandler.getUnit(input), Error);
+      assert.equal(convertHandler.getUnit(input), "invalid unit");
     }
   });
 
