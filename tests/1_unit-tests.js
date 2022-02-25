@@ -1,7 +1,7 @@
 const chai = require("chai");
 let assert = chai.assert;
 
-const ConvertHandler = require("../controllers/convertHandler.js");
+const { ConvertHandler } = require("../controllers");
 
 let convertHandler = new ConvertHandler();
 
@@ -133,7 +133,11 @@ suite("Unit Tests", function () {
     };
 
     for (let input in inputs) {
-      assert.equal(convertHandler.getReturnUnit(input), inputs[input], "Expected " + input + " to be " + inputs[input]);
+      assert.equal(
+        convertHandler.getReturnUnit(input),
+        inputs[input],
+        "Expected " + input + " to be " + inputs[input]
+      );
     }
   });
 

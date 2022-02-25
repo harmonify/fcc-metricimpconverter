@@ -1,6 +1,6 @@
 const { units, unitsMap, unitsLongName } = require("../config").constants;
 
-function ConvertHandler() {
+module.exports = function () {
   this.getNum = function (input) {
     let result;
     const num = input.split("/");
@@ -90,6 +90,4 @@ function ConvertHandler() {
   this.filterUnit = function (unit) {
     return unit.toLowerCase();
   };
-}
-
-module.exports = ConvertHandler;
+};
