@@ -23,19 +23,28 @@ function ConvertHandler() {
 
   this.getUnit = function (input) {
     const result = input.match(/[a-zA-Z]+$/);
-    return result !== null && units[result[0]] ? result[0] : "invalid unit";
+    if (result === null) {
+      return "invalid unit";
+    }
+    const properUnit = this.filterUnit(result[0]);
+    if (units[properUnit] === undefined) {
+      return "invalid unit";
+    }
+    return units[properUnit];
   };
 
   this.getReturnUnit = function (initUnit) {
-    if (unitsMap[initUnit]) {
-      return unitsMap[initUnit];
+    const properUnit = this.filterUnit(initUnit);
+    if (unitsMap[properUnit]) {
+      return unitsMap[properUnit];
     }
     return "invalid unit";
   };
 
   this.spellOutUnit = function (unit) {
-    if (unitsLongName[unit]) {
-      return unitsLongName[unit];
+    const properUnit = this.filterUnit(unit);
+    if (unitsLongName[properUnit]) {
+      return unitsLongName[properUnit];
     }
     return "invalid unit";
   };
@@ -50,7 +59,7 @@ function ConvertHandler() {
       case units.gal:
         result = initNum * galToL;
         break;
-      case units.L:
+      case units.l:
         result = initNum / galToL;
         break;
       case units.mi:
@@ -74,8 +83,12 @@ function ConvertHandler() {
 
   this.getString = function (initNum, initUnit, returnNum, returnUnit) {
     return `${initNum} ${this.spellOutUnit(
-      initUnit
+      this.filterUnit(initUnit)
     )} converts to ${returnNum} ${this.spellOutUnit(returnUnit)}`;
+  };
+
+  this.filterUnit = function (unit) {
+    return unit.toLowerCase();
   };
 }
 

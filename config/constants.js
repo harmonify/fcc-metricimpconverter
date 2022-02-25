@@ -1,6 +1,6 @@
 const units = {
   gal: "gal",
-  L: "L",
+  l: "L",
   mi: "mi",
   km: "km",
   lbs: "lbs",
@@ -9,7 +9,7 @@ const units = {
 
 const unitsLongName = {
   gal: "gallons",
-  L: "liters",
+  l: "liters",
   mi: "miles",
   km: "kilometers",
   lbs: "pounds",
@@ -18,7 +18,7 @@ const unitsLongName = {
 
 const unitsMap = {
   gal: "L",
-  L: "gal",
+  l: "gal",
   mi: "km",
   km: "mi",
   lbs: "kg",

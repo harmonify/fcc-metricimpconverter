@@ -133,7 +133,7 @@ suite("Unit Tests", function () {
     };
 
     for (let input in inputs) {
-      assert.equal(convertHandler.getReturnUnit(input), inputs[input]);
+      assert.equal(convertHandler.getReturnUnit(input), inputs[input], "Expected " + input + " to be " + inputs[input]);
     }
   });
 
