@@ -1,8 +1,10 @@
+const { units, unitsMap, unitsLongName } = require("../config").constants;
+
 function ConvertHandler() {
   this.getNum = function (input) {
     let result;
     const num = input.split("/");
-    const wholeOrDecimalRe = /[\d]+(\.[\d]+)?/;
+    const wholeOrDecimalRe = /^[\d]+(\.[\d]+)?/;
 
     if (num.length === 1) {
       result = num[0].match(wholeOrDecimalRe) ? parseFloat(num[0]) : 1;
@@ -13,7 +15,7 @@ function ConvertHandler() {
     }
 
     if (isNaN(result)) {
-      result = new Error("invalid number");
+      result = "invalid number";
     }
 
     return result;
@@ -21,42 +23,21 @@ function ConvertHandler() {
 
   this.getUnit = function (input) {
     const result = input.match(/[a-zA-Z]+$/);
-    if (result) {
-      return result[0];
-    }
-    return new Error("invalid unit");
+    return result !== null && units[result[0]] ? result[0] : "invalid unit";
   };
 
   this.getReturnUnit = function (initUnit) {
-    const result = {
-      gal: "L",
-      L: "gal",
-      mi: "km",
-      km: "mi",
-      lbs: "kg",
-      kg: "lbs",
-    };
-    if (result[initUnit]) {
-      return result[initUnit];
+    if (unitsMap[initUnit]) {
+      return unitsMap[initUnit];
     }
-
-    return new Error("invalid unit");
+    return "invalid unit";
   };
 
   this.spellOutUnit = function (unit) {
-    const result = {
-      gal: "gallons",
-      L: "liters",
-      mi: "miles",
-      km: "kilometers",
-      lbs: "pounds",
-      kg: "kilograms",
-    };
-    if (result[unit]) {
-      return result[unit];
+    if (unitsLongName[unit]) {
+      return unitsLongName[unit];
     }
-
-    return new Error("invalid unit");
+    return "invalid unit";
   };
 
   this.convert = function (initNum, initUnit) {
@@ -66,37 +47,35 @@ function ConvertHandler() {
 
     let result;
     switch (initUnit) {
-      case "gal":
+      case units.gal:
         result = initNum * galToL;
         break;
-      case "L":
+      case units.L:
         result = initNum / galToL;
         break;
-      case "mi":
+      case units.mi:
         result = initNum * miToKm;
         break;
-      case "km":
+      case units.km:
         result = initNum / miToKm;
         break;
-      case "lbs":
+      case units.lbs:
         result = initNum * lbsToKg;
         break;
-      case "kg":
+      case units.kg:
         result = initNum / lbsToKg;
         break;
       default:
-        return new Error("invalid unit");
+        return "invalid unit";
     }
 
     return parseFloat(result.toFixed(5));
   };
 
   this.getString = function (initNum, initUnit, returnNum, returnUnit) {
-    let result;
-    result = `${initNum} ${this.spellOutUnit(
+    return `${initNum} ${this.spellOutUnit(
       initUnit
     )} converts to ${returnNum} ${this.spellOutUnit(returnUnit)}`;
-    return result;
   };
 }
 
