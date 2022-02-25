@@ -22,19 +22,25 @@ module.exports = function (app) {
    */
   app.get("/api/convert", (req, res, next) => {
     try {
-      const { input } = req.query;
+      let { input } = req.query;
+      if (!input) {
+        throw new ErrorWithStatus("invalid input", 200);
+      }
+      input = input.toLowerCase();
 
       const initNum = convertHandler.getNum(input);
       const initUnit = convertHandler.getUnit(input);
 
       const initNumIsInvalid = initNum === "invalid number";
       const initUnitIsInvalid = initUnit === "invalid unit";
+
+      // we passed 200 here because FCC's test suite expects a success
       if (initNumIsInvalid && initUnitIsInvalid) {
-        throw new ErrorWithStatus("invalid number and unit", 400);
+        throw new ErrorWithStatus("invalid number and unit", 200);
       } else if (initNumIsInvalid) {
-        throw new ErrorWithStatus("invalid number", 400);
+        throw new ErrorWithStatus("invalid number", 200);
       } else if (initUnitIsInvalid) {
-        throw new ErrorWithStatus("invalid unit", 400);
+        throw new ErrorWithStatus("invalid unit", 200);
       }
 
       const returnNum = convertHandler.convert(initNum, initUnit);

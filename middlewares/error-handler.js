@@ -2,8 +2,6 @@ module.exports = function (err, req, res, next) {
   const { NODE_ENV } = process.env;
   const status = err.status || 500;
 
-  res.status(status);
-
   // render the error page if not in production
   if (NODE_ENV === "test") {
     console.error({
@@ -12,15 +10,17 @@ module.exports = function (err, req, res, next) {
     });
   }
 
-  if (status !== 500) {
-    res.json({
-      message: err.message,
-      status,
-    });
-  } else {
-    res.json({
-      message: "Something went wrong",
-      status,
-    });
-  }
+  res.send(err.message);
+  // res.status(status);
+  // if (status !== 500) {
+  //   res.json({
+  //     message: err.message,
+  //     status,
+  //   });
+  // } else {
+  //   res.json({
+  //     message: "Something went wrong",
+  //     status,
+  //   });
+  // }
 };
