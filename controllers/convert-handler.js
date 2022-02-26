@@ -14,7 +14,7 @@ module.exports = function () {
       result = NaN;
     }
 
-    if (isNaN(result)) {
+    if (isNaN(result) || isFinite(result) === false) {
       result = "invalid number";
     }
 

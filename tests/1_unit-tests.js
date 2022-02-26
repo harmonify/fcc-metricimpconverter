@@ -70,6 +70,23 @@ suite("Unit Tests", function () {
     }
   });
 
+  test("convertHandler should correctly return an error on an invalid number", function () {
+    const inputs = [
+      "1/0",
+      "1/",
+      "0/0",
+      "1/0.0",
+      "0/0.0",
+      "0.0/0",
+      "0/0.0.0",
+      "0.0/0.0",
+    ];
+
+    inputs.forEach((input) => {
+      assert.equal(convertHandler.getNum(input), "invalid number");
+    });
+  });
+
   test("convertHandler should correctly return an error on a double-fraction", function () {
     const inputs = [
       "1/2/3L",
